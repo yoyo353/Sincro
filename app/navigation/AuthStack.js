@@ -5,8 +5,9 @@ import { View, ActivityIndicator } from 'react-native';
 
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import SetupScreen from '../screens/SetupScreen';
+import HomeScreen from '../screens/HomeScreen';
 import { AuthContext } from '../context/AuthContext';
+import { CycleProvider } from '../context/CycleContext';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,15 @@ const AuthStack = () => {
         );
     }
 
+    // Wrapper for authenticated routes to provide Cycle Context
+    const AuthenticatedRoutes = () => (
+        <CycleProvider>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Home" component={HomeScreen} />
+            </Stack.Navigator>
+        </CycleProvider>
+    );
+
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -32,7 +42,7 @@ const AuthStack = () => {
                     </>
                 ) : (
                     // User is signed in
-                    <Stack.Screen name="Setup" component={SetupScreen} />
+                    <Stack.Screen name="Authenticated" component={AuthenticatedRoutes} />
                 )}
             </Stack.Navigator>
         </NavigationContainer>

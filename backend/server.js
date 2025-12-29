@@ -2,7 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth-routes');
+const cycleRoutes = require('./routes/cycle-routes');
+const User = require('./models/user');
+const Cycle = require('./models/cycle');
 require('dotenv').config();
+
+// Associations
+User.hasMany(Cycle, { foreignKey: 'user_id' });
+Cycle.belongsTo(User, { foreignKey: 'user_id' });
+
 
 const app = express();
 
@@ -12,6 +20,8 @@ app.use(express.json()); // Body Parser
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/cycles', cycleRoutes);
+
 
 // Test Route
 app.get('/', (req, res) => {
