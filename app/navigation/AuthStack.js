@@ -6,6 +6,8 @@ import { View, ActivityIndicator } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
+import SetupScreen from '../screens/SetupScreen';
+import PartnerViewScreen from '../screens/PartnerViewScreen';
 import { AuthContext } from '../context/AuthContext';
 import { CycleProvider } from '../context/CycleContext';
 
@@ -27,6 +29,8 @@ const AuthStack = () => {
         <CycleProvider>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Setup" component={SetupScreen} />
+                <Stack.Screen name="PartnerView" component={PartnerViewScreen} />
             </Stack.Navigator>
         </CycleProvider>
     );

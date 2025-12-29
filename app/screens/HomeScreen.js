@@ -4,9 +4,26 @@ import { Button, Text, Card, Title, Paragraph, ActivityIndicator, Appbar } from 
 import { CycleContext } from '../context/CycleContext';
 import { AuthContext } from '../context/AuthContext';
 
-const HomeScreen = () => {
+import api from '../services/api';
+
+const HomeScreen = ({ navigation }) => {
     const { currentCycle, startPeriod, endPeriod, loading: cycleLoading, cycles } = useContext(CycleContext);
     const { userInfo, logout } = useContext(AuthContext);
+
+    useEffect(() => {
+        checkRelationshipStatus();
+    }, []);
+
+    const checkRelationshipStatus = async () => {
+        try {
+            const res = await api.get('/relationships/status');
+            if (res.data.status === 'ACTIVE' && res.data.role === 'VIEWER') {
+                navigation.replace('PartnerView');
+            }
+        } catch (error) {
+            console.error('Failed to check relationship status', error);
+        }
+    };
 
     // Simple Phase Calculation (Logic can be improved)
     const calculatePhase = () => {
@@ -57,6 +74,7 @@ const HomeScreen = () => {
         <>
             <Appbar.Header style={{ backgroundColor: '#fff' }}>
                 <Appbar.Content title={`Hello, ${userInfo?.display_name || 'User'}`} />
+                <Appbar.Action icon="cog" onPress={() => navigation.navigate('Setup')} />
                 <Appbar.Action icon="logout" onPress={logout} />
             </Appbar.Header>
 

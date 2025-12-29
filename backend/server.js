@@ -5,6 +5,9 @@ const authRoutes = require('./routes/auth-routes');
 const cycleRoutes = require('./routes/cycle-routes');
 const User = require('./models/user');
 const Cycle = require('./models/cycle');
+const Relationship = require('./models/relationship');
+const Permission = require('./models/permission');
+const pairingRoutes = require('./routes/pairing-routes');
 require('dotenv').config();
 
 // Associations
@@ -21,6 +24,7 @@ app.use(express.json()); // Body Parser
 // Routes
 app.use('/auth', authRoutes);
 app.use('/cycles', cycleRoutes);
+app.use('/relationships', pairingRoutes);
 
 
 // Test Route
